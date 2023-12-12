@@ -1,3 +1,6 @@
+using System;
+using Counter;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -6,14 +9,17 @@ namespace Player
     [RequireComponent(typeof(PlayerInputHandler))]
     public class PlayerInteractions : MonoBehaviour
     {
+        public event Action<EmptyCounter> FocusCounter; 
+        
         [SerializeField]
         private float interactionDistance = 1f;
     
         private PlayerInputHandler _playerInputHandler;
+        
         private Vector3 _facingDirection;
-    
-        // @todo refactor when multiple interaction elements are added
-        private EmptyCounter _selectedCounter;
+        
+        // @todo consider converting the mechanism to an event based one using Scriptable Objects to decouple
+        private EmptyCounter _focusedCounter;
     
         private void Awake()
         {
@@ -44,18 +50,24 @@ namespace Player
         
             if (!hitRegistered)
             {
-                _selectedCounter = null;
+                SetFocusedCounter(null);
                 return;
             }
+
+            SetFocusedCounter(hit.transform.TryGetComponent(out EmptyCounter emptyCounter) ? emptyCounter : null);
+        }
         
-            _selectedCounter = hit.transform.TryGetComponent(out EmptyCounter emptyCounter) ? emptyCounter : null;
+        private void SetFocusedCounter(EmptyCounter emptyCounter)
+        {
+            _focusedCounter = emptyCounter;
+            FocusCounter?.Invoke(_focusedCounter);
         }
     
         private void PlayerInputOnInteract(InputAction.CallbackContext obj)
         {
-            if (_selectedCounter != null)
+            if (_focusedCounter != null)
             {
-                _selectedCounter.Interact();
+                _focusedCounter.Interact();
             }
         }
     }
