@@ -6,13 +6,15 @@ public class Player : MonoBehaviour
     private float moveSpeed = 1f;
     [SerializeField]
     private float rotationSpeed = 1f;
+    [SerializeField]
+    private PlayerInput playerInput;
     
     public bool IsWalking { get; private set; }
     
     private void Update()
     {
         var inputVector = Vector2.zero;
-        inputVector = ReadInputVector(inputVector);
+        inputVector = playerInput.GetNormalizedInputVector();
         
         var moveDirection = new Vector3(inputVector.x, 0, inputVector.y);
         IsWalking = moveDirection != Vector3.zero;
@@ -34,32 +36,5 @@ public class Player : MonoBehaviour
         }
 
         transform.forward = Vector3.Slerp(transform.forward, moveDirection, Time.deltaTime * rotationSpeed);
-    }
-
-    private Vector2 ReadInputVector(Vector2 inputVector)
-    {
-        if (Input.GetKey(KeyCode.W))
-        {
-            inputVector.y = +1;
-        }
-        
-        if (Input.GetKey(KeyCode.S))
-        {
-            inputVector.y = -1;
-        }
-        
-        if (Input.GetKey(KeyCode.A))
-        {
-            inputVector.x = -1;
-        }
-        
-        if (Input.GetKey(KeyCode.D))
-        {
-            inputVector.x = +1;
-        }
-        
-        inputVector.Normalize();
-
-        return inputVector;
     }
 }
