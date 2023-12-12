@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
@@ -10,15 +11,65 @@ public class Player : MonoBehaviour
     private float rotationSpeed = 1f;
     [SerializeField]
     private PlayerInput playerInput;
+
+    [SerializeField] private LayerMask countersLayerMask;
     
     public bool IsWalking { get; private set; }
-    
+    private Vector3 _lastMoveDirection;
+
+    private void Start()
+    {
+        playerInput.OnInteract += PlayerInputOnOnInteract;
+    }
+
+    private void PlayerInputOnOnInteract(InputAction.CallbackContext obj)
+    {
+        var inputVector = playerInput.GetNormalizedInputVector();
+        var moveDirection = new Vector3(inputVector.x, 0, inputVector.y);
+        const float interactionDistance = 2f;
+
+        if (moveDirection != Vector3.zero)
+        {
+            _lastMoveDirection = moveDirection;
+        }
+        
+        var hitRegistered = Physics.Raycast(transform.position, _lastMoveDirection, out var hit, interactionDistance, countersLayerMask);
+        if (!hitRegistered) return;
+        if (hit.transform.TryGetComponent(out EmptyCounter emptyCounter))
+        {
+            emptyCounter.Interact();
+        }
+    }
+
     private void Update()
+    {
+        HandleMovement();
+        HandleInteractions();
+    }
+
+    private void HandleInteractions()
+    {
+        var inputVector = playerInput.GetNormalizedInputVector();
+        var moveDirection = new Vector3(inputVector.x, 0, inputVector.y);
+        const float interactionDistance = 2f;
+
+        if (moveDirection != Vector3.zero)
+        {
+            _lastMoveDirection = moveDirection;
+        }
+        
+        var hitRegistered = Physics.Raycast(transform.position, _lastMoveDirection, out var hit, interactionDistance, countersLayerMask);
+        if (!hitRegistered) return;
+        if (hit.transform.TryGetComponent(out EmptyCounter emptyCounter))
+        {
+        }
+    }
+
+    private void HandleMovement()
     {
         var inputVector = playerInput.GetNormalizedInputVector();
         
         var moveDirection = new Vector3(inputVector.x, 0, inputVector.y);
-        IsWalking = moveDirection != Vector3.zero;
 
         var currentPosition = transform.position;
         var canMove = !Physics.CapsuleCast(currentPosition, currentPosition + Vector3.up * 2f, .7f, moveDirection,
@@ -64,6 +115,7 @@ public class Player : MonoBehaviour
     private void ApplyMove(Vector3 moveDirection)
     {
         transform.position += moveDirection * (Time.deltaTime * moveSpeed);
+        IsWalking = moveDirection != Vector3.zero;
     }
 
     private void ApplyRotation(Vector3 moveDirection)
