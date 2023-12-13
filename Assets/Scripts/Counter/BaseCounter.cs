@@ -18,7 +18,7 @@ namespace Counter
 
         public void AttachKitchenObject(KitchenObject kitchenObject)
         {
-            _kitchenObject = kitchenObject.GetComponent<KitchenObject>();
+            _kitchenObject = kitchenObject;
             _kitchenObject.AttachToParent(this);
         }
 
@@ -29,6 +29,7 @@ namespace Counter
 
         public void DetachKitchenObject()
         {
+            _kitchenObject.DetachFromParent();
             _kitchenObject = null;
         }
 

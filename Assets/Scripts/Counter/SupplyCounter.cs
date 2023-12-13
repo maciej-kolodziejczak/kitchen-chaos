@@ -12,8 +12,16 @@ namespace Counter
     
         public override void Interact(PlayerInteractions playerInteractions)
         {
+            var player = playerInteractions.GetComponent<IKitchenObjectParent>();
+            
+            if (player.HasAttachedKitchenObject())
+            {
+                return;
+            }
+            
             var kitchenObject = Instantiate(kitchenObjectSo.prefab, prefabSpawnGameObject.transform);
-            kitchenObject.GetComponent<KitchenObject>().AttachToParent(playerInteractions.GetComponent<IKitchenObjectParent>());
+            
+            player.AttachKitchenObject(kitchenObject.GetComponent<KitchenObject>());
             GrabbedKitchenObject?.Invoke();
         }
     }

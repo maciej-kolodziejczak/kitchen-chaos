@@ -18,6 +18,9 @@ public class KitchenObject : MonoBehaviour
         transform1.parent = parent.GetSpawnOrigin().transform;
         transform1.localPosition = Vector3.zero;
     }
-    
-    public void DetachFromParent() {}
+
+    public void DetachFromParent()
+    {
+        _parent = null;
+    }
 }

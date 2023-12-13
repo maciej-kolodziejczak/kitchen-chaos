@@ -27,6 +27,7 @@ namespace Player
 
         public void DetachKitchenObject()
         {
+            _kitchenObject.DetachFromParent();
             _kitchenObject = null;
         }
 
