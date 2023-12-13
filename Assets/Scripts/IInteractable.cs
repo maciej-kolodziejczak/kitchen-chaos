@@ -1,4 +1,6 @@
-public interface IInteractable
+using Player;
+
+public interface IInteractable<in T>
 {
-    public void Interact();
+    public void Interact(T invoker);
 }

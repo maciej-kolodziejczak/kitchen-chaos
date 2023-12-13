@@ -5,21 +5,17 @@ namespace Counter
 {
     public class SelectedCounterVisual : MonoBehaviour
     {
-        // @todo This is super bad, refactor to Scriptable Object events ASAP 
-        [SerializeField] private PlayerInteractions playerInteractions;
-        // @todo Figure out a way to reliably select children element with mesh renderer (get in children by type?)
-        [SerializeField] private GameObject visualObject;
-        private EmptyCounter _emptyCounter;
+        [SerializeField] private BaseCounter parentCounter;
+        [SerializeField] private GameObject[] visualObjects;
 
-        private void Awake()
+        private void Start()
         {
-            _emptyCounter = GetComponentInParent<EmptyCounter>();
-            playerInteractions.FocusCounter += PlayerInteractionsOnFocusCounter;
+            PlayerInteractions.Instance.FocusCounter += PlayerInteractionsOnFocusCounter;
         }
 
-        private void PlayerInteractionsOnFocusCounter(EmptyCounter obj)
+        private void PlayerInteractionsOnFocusCounter(BaseCounter obj)
         {
-            if (obj == _emptyCounter)
+            if (obj == parentCounter)
             {
                 Show();
             }
@@ -31,12 +27,18 @@ namespace Counter
 
         private void Show()
         {
-            visualObject.SetActive(true);
+            foreach (var visualObject in visualObjects)
+            {
+                visualObject.SetActive(true);
+            }
         }
 
         private void Hide()
         {
-            visualObject.SetActive(false);
+            foreach (var visualObject in visualObjects)
+            {
+                visualObject.SetActive(false);
+            }
         }
     
     }

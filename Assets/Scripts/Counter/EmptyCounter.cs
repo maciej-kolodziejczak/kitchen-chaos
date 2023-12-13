@@ -1,17 +1,26 @@
+using Player;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Counter
 {
-    public class EmptyCounter : MonoBehaviour, IInteractable
+    public class EmptyCounter : BaseCounter
     {
-        [SerializeField] private KitchenObjectSo kitchenObject;
-        [SerializeField] private GameObject prefabSpawnPoint;
+        [SerializeField] private KitchenObjectSo kitchenObjectSo;
         
-        public void Interact()
+        public override void Interact(PlayerInteractions playerInteractions)
         {
-            var tomato = Instantiate(kitchenObject.prefab, prefabSpawnPoint.transform);
-            kitchenObject.prefab.transform.localPosition = Vector3.zero;
-            Debug.Log("EmptyCounter interacted");
+            if (HasAttachedKitchenObject())
+            {
+                playerInteractions.GetComponent<PlayerKitchenObjectInteraction>().AttachKitchenObject(GetAttachedKitchenObject());
+                DetachKitchenObject();
+                return;
+            }
+            
+            var kitchenObject = Instantiate(kitchenObjectSo.prefab, prefabSpawnGameObject.transform);
+            AttachKitchenObject(kitchenObject.GetComponent<KitchenObject>());
         }
+
+        
     }
 }

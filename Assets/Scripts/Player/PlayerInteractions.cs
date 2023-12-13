@@ -7,22 +7,28 @@ using UnityEngine.InputSystem;
 namespace Player
 {
     [RequireComponent(typeof(PlayerInputHandler))]
+    [RequireComponent(typeof(PlayerKitchenObjectInteraction))]
     public class PlayerInteractions : MonoBehaviour
     {
-        public event Action<EmptyCounter> FocusCounter; 
+        public event Action<BaseCounter> FocusCounter; 
+        
+        public static PlayerInteractions Instance { get; private set; }
         
         [SerializeField]
         private float interactionDistance = 1f;
+        [SerializeField]
+        private LayerMask interactionLayerMask;
     
         private PlayerInputHandler _playerInputHandler;
-        
         private Vector3 _facingDirection;
-        
-        // @todo consider converting the mechanism to an event based one using Scriptable Objects to decouple
-        private EmptyCounter _focusedCounter;
+        private BaseCounter _focusedCounter;
     
         private void Awake()
         {
+            if (!Instance)
+            {
+                Instance = this;
+            }
             _playerInputHandler = GetComponent<PlayerInputHandler>();
         }
 
@@ -46,7 +52,7 @@ namespace Player
                 _facingDirection = moveDirection;
             }
         
-            var hitRegistered = Physics.Raycast(transform.position, _facingDirection, out var hit, interactionDistance);
+            var hitRegistered = Physics.Raycast(transform.position, _facingDirection, out var hit, interactionDistance, interactionLayerMask);
         
             if (!hitRegistered)
             {
@@ -54,12 +60,18 @@ namespace Player
                 return;
             }
 
-            SetFocusedCounter(hit.transform.TryGetComponent(out EmptyCounter emptyCounter) ? emptyCounter : null);
+            if (!hit.transform.TryGetComponent(out BaseCounter baseCounter))
+            {
+                SetFocusedCounter(null);
+                return;
+            }
+            
+            SetFocusedCounter(baseCounter);
         }
         
-        private void SetFocusedCounter(EmptyCounter emptyCounter)
+        private void SetFocusedCounter(BaseCounter baseCounter)
         {
-            _focusedCounter = emptyCounter;
+            _focusedCounter = baseCounter;
             FocusCounter?.Invoke(_focusedCounter);
         }
     
@@ -67,7 +79,7 @@ namespace Player
         {
             if (_focusedCounter != null)
             {
-                _focusedCounter.Interact();
+                _focusedCounter.Interact(this);
             }
         }
     }
