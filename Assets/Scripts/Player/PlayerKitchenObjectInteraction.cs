@@ -4,7 +4,6 @@ namespace Player
 {
     public class PlayerKitchenObjectInteraction : MonoBehaviour, IKitchenObjectParent
     {
-        [SerializeField] private KitchenObjectSo kitchenObjectSo;
         [SerializeField] private GameObject prefabSpawnGameObject;
         
         private KitchenObject _kitchenObject;

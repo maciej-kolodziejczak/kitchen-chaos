@@ -255,11 +255,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 21300000, guid: e1c23b5aded59d84da30738d3267a6c9,
+        type: 3}
     - target: {fileID: 4841286013473667211, guid: 9a9137fa2b035d34e881701d2c178192,
         type: 3}
       propertyPath: m_WasSpriteAssigned
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -406,4 +407,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabSpawnGameObject: {fileID: 2661199942657380207}
-  kitchenObjectSo: {fileID: 0}
+  kitchenObjectSo: {fileID: 11400000, guid: e9f059b1b46e12c4189ed529f7df346a, type: 2}
