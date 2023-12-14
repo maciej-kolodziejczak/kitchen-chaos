@@ -1,10 +1,22 @@
+using System.Linq;
 using KitchenObject;
-using Player;
+using UnityEngine;
 
 namespace Counter
 {
+    [RequireComponent(typeof(KitchenObjectSpawner))]
     public class CuttingCounter : BaseCounter
     {
+        [SerializeField] private RecipeRepositorySo recipeRepositorySo;
+        
+        private KitchenObjectSpawner _kitchenObjectSpawner;
+        
+        public override void Awake()
+        {
+            base.Awake();
+            _kitchenObjectSpawner = GetComponent<KitchenObjectSpawner>();
+        }
+        
         public override void Interact(KitchenObjectInteractor invoker)
         {
 
@@ -22,8 +34,8 @@ namespace Counter
                     invoker.AttachKitchenObject(counterKitchenObject);
                     
                     return;
-                };
-                    
+                }
+
                 // Counter is empty, player puts the object on the counter
                 Interactor.AttachKitchenObject(invoker.GetAttachedKitchenObject());
                 invoker.DetachKitchenObject();
@@ -50,9 +62,29 @@ namespace Counter
                 return;
             }
             
+            
+            var currentObject = Interactor.GetAttachedKitchenObject();
+            var recipeResult = GetRecipeResult(currentObject.KitchenObjectSo);
+            
+            Debug.Log(currentObject);
+            
+            if (recipeResult == null)
+            {
+                return;
+            }
+            
             // destroy currently handled object
-            Interactor.GetAttachedKitchenObject().DestroySelf();
+            currentObject.DestroySelf();
             Interactor.DetachKitchenObject();
+            
+            // spawn new object
+            Interactor.AttachKitchenObject(
+                _kitchenObjectSpawner.SpawnKitchenObject(recipeResult, Interactor.GetKitchenObjectOrigin()));
+        }
+
+        private KitchenObjectSo GetRecipeResult(KitchenObjectSo input)
+        {
+            return (from recipeMap in recipeRepositorySo.recipeMaps where recipeMap.input == input select recipeMap.output).FirstOrDefault();
         }
     }
 }

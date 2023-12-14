@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace KitchenObject
@@ -7,7 +8,12 @@ namespace KitchenObject
         [SerializeField] private KitchenObjectSo kitchenObjectSo;
     
         public KitchenObjectSo KitchenObjectSo => kitchenObjectSo;
-    
+
+        private void Awake()
+        {
+           Instantiate(kitchenObjectSo.visualPrefab, transform);
+        }
+
         public void SetToParentOrigin(KitchenObjectInteractor parent)
         {
 

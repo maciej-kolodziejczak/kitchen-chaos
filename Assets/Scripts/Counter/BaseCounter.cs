@@ -9,7 +9,7 @@ namespace Counter
     {
         protected KitchenObjectInteractor Interactor;
         
-        public void Awake()
+        public virtual void Awake()
         {
             Interactor = GetComponent<KitchenObjectInteractor>();
         }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4821043443549073696}
   - component: {fileID: -7145870949262842894}
   m_Layer: 0
-  m_Name: CheeseBlock
+  m_Name: CheeseBlockSliced
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,4 +44,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e281ba969ec67af45b588eb83a8ca37f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  kitchenObjectSo: {fileID: 11400000, guid: 8ce44b9d591af28488b459bb9821df63, type: 2}
+  kitchenObjectSo: {fileID: 11400000, guid: c0bead141e2ea854a88de9054be6a403, type: 2}
