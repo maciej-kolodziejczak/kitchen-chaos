@@ -10,7 +10,7 @@ namespace Counter
         
         public event Action GrabbedKitchenObject;
     
-        public override void Interact(IKitchenObjectInteractor invoker)
+        public override void Interact(KitchenObjectInteractor invoker)
         {
             
             if (invoker.HasAttachedKitchenObject())
@@ -18,7 +18,7 @@ namespace Counter
                 return;
             }
             
-            var kitchenObject = Instantiate(kitchenObjectSo.prefab, kitchenObjectOrigin);
+            var kitchenObject = Instantiate(kitchenObjectSo.prefab, Interactor.GetKitchenObjectOrigin());
             
             invoker.AttachKitchenObject(kitchenObject.GetComponent<KitchenObject.KitchenObject>());
             GrabbedKitchenObject?.Invoke();

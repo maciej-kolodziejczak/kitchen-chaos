@@ -5,7 +5,7 @@ namespace Counter
 {
     public class CuttingCounter : BaseCounter
     {
-        public override void Interact(IKitchenObjectInteractor invoker)
+        public override void Interact(KitchenObjectInteractor invoker)
         {
 
             if (invoker.HasAttachedKitchenObject())
@@ -43,7 +43,7 @@ namespace Counter
             Interactor.DetachKitchenObject();
         }
 
-        public override void InteractAlt(IKitchenObjectInteractor invoker)
+        public override void InteractAlt(KitchenObjectInteractor invoker)
         {
             if (!Interactor.HasAttachedKitchenObject())
             {

@@ -8,7 +8,7 @@ namespace KitchenObject
     
         public KitchenObjectSo KitchenObjectSo => kitchenObjectSo;
     
-        public void SetToParentOrigin(IKitchenObjectInteractor parent)
+        public void SetToParentOrigin(KitchenObjectInteractor parent)
         {
 
             var transform1 = transform;

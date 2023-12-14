@@ -1,13 +1,13 @@
 using System;
 using Counter;
-using Unity.VisualScripting;
+using KitchenObject;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 namespace Player
 {
     [RequireComponent(typeof(PlayerInputHandler))]
-    [RequireComponent(typeof(PlayerKitchenObjectInteractor))]
+    [RequireComponent(typeof(KitchenObjectInteractor))]
     public class PlayerInteractions : MonoBehaviour
     {
         public event Action<BaseCounter> FocusCounter; 
@@ -80,7 +80,7 @@ namespace Player
         {
             if (_focusedCounter != null)
             {
-                _focusedCounter.Interact(this.GetComponent<PlayerKitchenObjectInteractor>().Interactor);
+                _focusedCounter.Interact(this.GetComponent<KitchenObjectInteractor>());
             }
         }
 
@@ -88,7 +88,7 @@ namespace Player
         {
             if (_focusedCounter != null)
             {
-                _focusedCounter.InteractAlt(this.GetComponent<PlayerKitchenObjectInteractor>().Interactor);
+                _focusedCounter.InteractAlt(this.GetComponent<KitchenObjectInteractor>());
             }
         }
     }

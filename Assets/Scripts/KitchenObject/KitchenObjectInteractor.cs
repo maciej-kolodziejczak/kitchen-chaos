@@ -1,20 +1,17 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace KitchenObject
 {
-    public class KitchenObjectInteractor : IKitchenObjectInteractor
+    public class KitchenObjectInteractor : MonoBehaviour
     {
+        [SerializeField] private Transform kitchenObjectOrigin;
+
         private KitchenObject _kitchenObject;
-        private readonly Transform _kitchenObjectOrigin;
-        
-        public KitchenObjectInteractor(Transform kitchenObjectOrigin)
-        {
-            _kitchenObjectOrigin = kitchenObjectOrigin;
-        }
-        
+
         public Transform GetKitchenObjectOrigin()
         {
-            return _kitchenObjectOrigin;
+            return kitchenObjectOrigin;
         }
 
         public void AttachKitchenObject(KitchenObject kitchenObject)
@@ -37,14 +34,5 @@ namespace KitchenObject
         {
             return _kitchenObject != null;
         }
-    }
-
-    public interface IKitchenObjectInteractor
-    {
-        public Transform GetKitchenObjectOrigin();
-        public void AttachKitchenObject(KitchenObject kitchenObject);
-        public KitchenObject GetAttachedKitchenObject();
-        public void DetachKitchenObject();
-        public bool HasAttachedKitchenObject();
     }
 }

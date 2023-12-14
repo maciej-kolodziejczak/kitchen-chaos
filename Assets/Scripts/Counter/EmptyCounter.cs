@@ -5,7 +5,7 @@ namespace Counter
 {
     public class EmptyCounter : BaseCounter
     {
-        public override void Interact(IKitchenObjectInteractor invoker)
+        public override void Interact(KitchenObjectInteractor invoker)
         {
 
             if (invoker.HasAttachedKitchenObject())

@@ -1,20 +1,20 @@
-﻿using KitchenObject;
+﻿using System;
+using KitchenObject;
 using UnityEngine;
 
 namespace Counter
 {
-    public abstract class BaseCounter : MonoBehaviour, IKitchenObjectParent
+    [RequireComponent(typeof(KitchenObjectInteractor))]
+    public abstract class BaseCounter : MonoBehaviour
     {
-        [SerializeField] protected Transform kitchenObjectOrigin;
-
-        public IKitchenObjectInteractor Interactor { get; private set; }
+        protected KitchenObjectInteractor Interactor;
         
-        private void Awake()
+        public void Awake()
         {
-            Interactor = new KitchenObjectInteractor(kitchenObjectOrigin);
+            Interactor = GetComponent<KitchenObjectInteractor>();
         }
-        
-        public virtual void Interact(IKitchenObjectInteractor interactor) {}
-        public virtual void InteractAlt(IKitchenObjectInteractor interactor) {}
+
+        public virtual void Interact(KitchenObjectInteractor interactor) {}
+        public virtual void InteractAlt(KitchenObjectInteractor interactor) {}
     }
 }
