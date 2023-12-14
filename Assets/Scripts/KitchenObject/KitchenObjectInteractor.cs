@@ -1,8 +1,10 @@
-﻿    using UnityEngine;
+﻿using UnityEngine;
 
+namespace KitchenObject
+{
     public class KitchenObjectInteractor : IKitchenObjectInteractor
     {
-        private KitchenObject.KitchenObject _kitchenObject;
+        private global::KitchenObject.KitchenObject _kitchenObject;
         private readonly Transform _kitchenObjectOrigin;
         
         public KitchenObjectInteractor(Transform kitchenObjectOrigin)
@@ -15,13 +17,13 @@
             return _kitchenObjectOrigin;
         }
 
-        public void AttachKitchenObject(KitchenObject.KitchenObject kitchenObject)
+        public void AttachKitchenObject(global::KitchenObject.KitchenObject kitchenObject)
         {
             _kitchenObject = kitchenObject;
             _kitchenObject.SetToParentOrigin(this);
         }
 
-        public KitchenObject.KitchenObject GetAttachedKitchenObject()
+        public global::KitchenObject.KitchenObject GetAttachedKitchenObject()
         {
             return _kitchenObject;
         }
@@ -40,8 +42,9 @@
     public interface IKitchenObjectInteractor
     {
         public Transform GetKitchenObjectOrigin();
-        public void AttachKitchenObject(KitchenObject.KitchenObject kitchenObject);
-        public KitchenObject.KitchenObject GetAttachedKitchenObject();
+        public void AttachKitchenObject(global::KitchenObject.KitchenObject kitchenObject);
+        public global::KitchenObject.KitchenObject GetAttachedKitchenObject();
         public void DetachKitchenObject();
         public bool HasAttachedKitchenObject();
     }
+}

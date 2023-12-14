@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using KitchenObject;
+using UnityEngine;
 
 namespace Counter
 {
-    public abstract class BaseCounter : MonoBehaviour
+    public abstract class BaseCounter : MonoBehaviour, IKitchenObjectParent
     {
         [SerializeField] protected Transform kitchenObjectOrigin;
 
