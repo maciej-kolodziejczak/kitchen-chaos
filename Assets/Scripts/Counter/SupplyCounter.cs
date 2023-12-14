@@ -10,18 +10,17 @@ namespace Counter
         
         public event Action GrabbedKitchenObject;
     
-        public override void Interact(PlayerInteractions playerInteractions)
+        public override void Interact(IKitchenObjectInteractor invoker)
         {
-            var player = playerInteractions.GetComponent<IKitchenObjectParent>();
             
-            if (player.HasAttachedKitchenObject())
+            if (invoker.HasAttachedKitchenObject())
             {
                 return;
             }
             
-            var kitchenObject = Instantiate(kitchenObjectSo.prefab, prefabSpawnGameObject.transform);
+            var kitchenObject = Instantiate(kitchenObjectSo.prefab, kitchenObjectOrigin);
             
-            player.AttachKitchenObject(kitchenObject.GetComponent<KitchenObject>());
+            invoker.AttachKitchenObject(kitchenObject.GetComponent<KitchenObject.KitchenObject>());
             GrabbedKitchenObject?.Invoke();
         }
     }

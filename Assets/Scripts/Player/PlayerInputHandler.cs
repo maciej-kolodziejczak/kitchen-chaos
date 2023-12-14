@@ -8,6 +8,7 @@ namespace Player
     {
         private PlayerInputActions _playerInputActions;
         public event Action<InputAction.CallbackContext> Interact;
+        public event Action<InputAction.CallbackContext> InteractAlt;
     
         private void Awake()
         {
@@ -15,6 +16,7 @@ namespace Player
             _playerInputActions.Player.Enable();
         
             _playerInputActions.Player.Interact.performed += ctx => Interact?.Invoke(ctx);
+            _playerInputActions.Player.InteractAlt.performed += ctx => InteractAlt?.Invoke(ctx);
         }
 
         public Vector2 GetInputVector()

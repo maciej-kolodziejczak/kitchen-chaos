@@ -98,11 +98,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1801cd4985034df49a419f5d9f37b042, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  kitchenObjectOrigin: {fileID: 4131724301942183287}
   kitchenObjectSo: {fileID: 11400000, guid: c9ad811d651d50146847ec6d0f9170ce, type: 2}
-  prefabSpawnGameObject: {fileID: 5863201899397325684}
---- !u!1 &5863201899397325684 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8490633500475210396, guid: 8a592d3c9aac1754dbbef3c5392688a2,
+--- !u!4 &4131724301942183287 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2151691901873343647, guid: 8a592d3c9aac1754dbbef3c5392688a2,
     type: 3}
   m_PrefabInstance: {fileID: 2633072233507068392}
   m_PrefabAsset: {fileID: 0}

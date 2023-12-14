@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 namespace Player
 {
     [RequireComponent(typeof(PlayerInputHandler))]
-    [RequireComponent(typeof(PlayerKitchenObjectInteraction))]
+    [RequireComponent(typeof(PlayerKitchenObjectInteractor))]
     public class PlayerInteractions : MonoBehaviour
     {
         public event Action<BaseCounter> FocusCounter; 
@@ -35,6 +35,7 @@ namespace Player
         private void Start()
         {
             _playerInputHandler.Interact += PlayerInputOnInteract;
+            _playerInputHandler.InteractAlt += PlayerInputOnInteractAlt;
         }
 
         private void Update()
@@ -79,7 +80,15 @@ namespace Player
         {
             if (_focusedCounter != null)
             {
-                _focusedCounter.Interact(this);
+                _focusedCounter.Interact(this.GetComponent<PlayerKitchenObjectInteractor>().Interactor);
+            }
+        }
+
+        private void PlayerInputOnInteractAlt(InputAction.CallbackContext obj)
+        {
+            if (_focusedCounter != null)
+            {
+                _focusedCounter.InteractAlt(this.GetComponent<PlayerKitchenObjectInteractor>().Interactor);
             }
         }
     }

@@ -1,12 +1,9 @@
 using Player;
-using UnityEngine;
 
 namespace Counter
 {
-    public class EmptyCounter : BaseCounter
+    public class CuttingCounter : BaseCounter
     {
-        [SerializeField] private KitchenObjectSo kitchenObjectSo;
-
         public override void Interact(IKitchenObjectInteractor invoker)
         {
 
@@ -42,6 +39,18 @@ namespace Counter
 
             // Player has nothing in hand, trying to grab from counter
             invoker.AttachKitchenObject(Interactor.GetAttachedKitchenObject());
+            Interactor.DetachKitchenObject();
+        }
+
+        public override void InteractAlt(IKitchenObjectInteractor invoker)
+        {
+            if (!Interactor.HasAttachedKitchenObject())
+            {
+                return;
+            }
+            
+            // destroy currently handled object
+            Destroy(Interactor.GetAttachedKitchenObject().gameObject);
             Interactor.DetachKitchenObject();
         }
     }
