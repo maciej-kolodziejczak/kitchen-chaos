@@ -1,6 +1,5 @@
 using System;
 using KitchenObject;
-using Player;
 using UnityEngine;
 
 namespace Counter

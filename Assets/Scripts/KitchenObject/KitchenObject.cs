@@ -16,5 +16,10 @@ namespace KitchenObject
             transform1.parent = parent.GetKitchenObjectOrigin().transform;
             transform1.localPosition = Vector3.zero;
         }
+
+        public void DestroySelf()
+        {
+            Destroy(gameObject);
+        }
     }
 }

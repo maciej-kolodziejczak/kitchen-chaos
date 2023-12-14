@@ -1,5 +1,4 @@
 ﻿using KitchenObject;
-using UnityEngine;
 
 public interface IKitchenObjectParent
 {

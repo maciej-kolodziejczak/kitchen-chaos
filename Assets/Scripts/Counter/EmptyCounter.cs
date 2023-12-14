@@ -1,13 +1,10 @@
 using KitchenObject;
 using Player;
-using UnityEngine;
 
 namespace Counter
 {
     public class EmptyCounter : BaseCounter
     {
-        [SerializeField] private KitchenObjectSo kitchenObjectSo;
-
         public override void Interact(IKitchenObjectInteractor invoker)
         {
 

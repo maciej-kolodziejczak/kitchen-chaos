@@ -51,7 +51,7 @@ namespace Counter
             }
             
             // destroy currently handled object
-            Destroy(Interactor.GetAttachedKitchenObject().gameObject);
+            Interactor.GetAttachedKitchenObject().DestroySelf();
             Interactor.DetachKitchenObject();
         }
     }
