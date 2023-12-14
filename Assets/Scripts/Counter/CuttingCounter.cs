@@ -11,6 +11,9 @@ namespace Counter
         
         private KitchenObjectSpawner _kitchenObjectSpawner;
         
+        // @todo fix this asap
+        private float _currentProgress = 0;
+        
         public override void Awake()
         {
             base.Awake();
@@ -62,16 +65,21 @@ namespace Counter
                 return;
             }
             
-            
             var currentObject = Interactor.GetAttachedKitchenObject();
-            var recipeResult = GetRecipeResult(currentObject.KitchenObjectSo);
-            
-            Debug.Log(currentObject);
-            
-            if (recipeResult == null)
+            var recipe = GetRecipe(currentObject.KitchenObjectSo);
+
+            if (recipe == null)
             {
                 return;
             }
+            
+            if (_currentProgress < recipe.duration)
+            {
+                _currentProgress++;
+                return;
+            }
+
+            _currentProgress = 0;
             
             // destroy currently handled object
             currentObject.DestroySelf();
@@ -79,12 +87,12 @@ namespace Counter
             
             // spawn new object
             Interactor.AttachKitchenObject(
-                _kitchenObjectSpawner.SpawnKitchenObject(recipeResult, Interactor.GetKitchenObjectOrigin()));
+                _kitchenObjectSpawner.SpawnKitchenObject(recipe?.output, Interactor.GetKitchenObjectOrigin()));
         }
 
-        private KitchenObjectSo GetRecipeResult(KitchenObjectSo input)
+        private RecipeMap GetRecipe(KitchenObjectSo input)
         {
-            return (from recipeMap in recipeRepositorySo.recipeMaps where recipeMap.input == input select recipeMap.output).FirstOrDefault();
+            return recipeRepositorySo.recipeMaps.FirstOrDefault(recipeMap => recipeMap.input == input);
         }
     }
 }
