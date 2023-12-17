@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: Frying Recipes
   m_EditorClassIdentifier: 
   recipeMaps:
-  - input: {fileID: 0}
-    output: {fileID: 0}
-    duration: 0
+  - input: {fileID: 11400000, guid: 60770cfa8f2aa354e8be3e76716240d6, type: 2}
+    output: {fileID: 11400000, guid: 205ad612d71764614a87ac2afff82be8, type: 2}
+    duration: 7
+  - input: {fileID: 11400000, guid: 205ad612d71764614a87ac2afff82be8, type: 2}
+    output: {fileID: 11400000, guid: f93eeb8be72514f329f5340bcbc4f47b, type: 2}
+    duration: 10
