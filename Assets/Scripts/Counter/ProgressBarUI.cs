@@ -19,7 +19,6 @@ namespace Counter
         
         private void OnProgressChanged(float fill)
         {
-            Debug.Log(fill);
             if (fill is 0 or >= 1)
             {
                 gameObject.SetActive(false);

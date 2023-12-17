@@ -1,3 +1,4 @@
+using System.Linq;
 using KitchenObject;
 using UnityEngine;
 
@@ -17,7 +18,51 @@ namespace Counter
         
         public override void Interact(KitchenObjectInteractor invoker)
         {
-            Debug.Log("FryingCounter Interact");
+            // If player has something in hand
+            if (invoker.HasAttachedKitchenObject())
+            {
+                // If object is not fryable, do nothing
+                if (!HasRecipe(invoker.GetAttachedKitchenObject().KitchenObjectSo))
+                {
+                    return;
+                }
+                
+                // If counter is empty, player puts the object on the counter
+                if (!Interactor.HasAttachedKitchenObject())
+                {
+                    Interactor.AttachKitchenObject(invoker.GetAttachedKitchenObject());
+                    invoker.DetachKitchenObject();
+                    return;    
+                }
+                
+                // If counter has something on it, swap objects
+                var playerKitchenObject = invoker.GetAttachedKitchenObject();
+                var counterKitchenObject = Interactor.GetAttachedKitchenObject();
+                
+                Interactor.AttachKitchenObject(playerKitchenObject);
+                invoker.AttachKitchenObject(counterKitchenObject);
+            }
+            
+            // If player has nothing in hand
+            if (!Interactor.HasAttachedKitchenObject())
+            {
+                // If counter is empty, do nothing
+                return;
+            }
+            
+            // If counter has something on it, player picks it up
+            invoker.AttachKitchenObject(Interactor.GetAttachedKitchenObject());
+            Interactor.DetachKitchenObject();
+        }
+        
+        private bool HasRecipe(KitchenObjectSo input)
+        {
+            return GetRecipe(input) != null;
+        }        
+
+        private RecipeMap GetRecipe(KitchenObjectSo input)
+        {
+            return recipeRepositorySo.recipeMaps.FirstOrDefault(recipeMap => recipeMap.input == input);
         }
     }
 }
