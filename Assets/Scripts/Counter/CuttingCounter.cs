@@ -15,6 +15,7 @@ namespace Counter
         // @todo fix this asap
         private float _currentProgress;
         public event Action<float> ProgressChanged;
+        public event Action CuttingKitchenObject;
         
         public override void Awake()
         {
@@ -79,6 +80,7 @@ namespace Counter
             if (_currentProgress < recipe.duration - 1f)
             {
                 UpdateProgress(_currentProgress + 1f, recipe.duration);
+                CuttingKitchenObject?.Invoke();
                 return;
             }
 

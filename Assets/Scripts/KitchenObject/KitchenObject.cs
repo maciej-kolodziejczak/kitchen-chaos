@@ -18,7 +18,7 @@ namespace KitchenObject
         {
 
             var transform1 = transform;
-        
+            
             transform1.parent = parent.GetKitchenObjectOrigin().transform;
             transform1.localPosition = Vector3.zero;
         }
