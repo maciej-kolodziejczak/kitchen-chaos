@@ -209,7 +209,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   barImage: {fileID: 7173130745858238726}
-  cuttingCounter: {fileID: 7200662101088417163}
+  baseCounter: {fileID: 7200662101088417163}
 --- !u!114 &409612289563887615
 MonoBehaviour:
   m_ObjectHideFlags: 0

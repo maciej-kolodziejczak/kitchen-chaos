@@ -7,18 +7,19 @@ namespace Counter
     public class ProgressBarUI : MonoBehaviour
     {
         [SerializeField] private Image barImage;
-        [SerializeField] private CuttingCounter cuttingCounter;
+        [SerializeField] private BaseCounter baseCounter;
 
         private void Start()
         {
             barImage.fillAmount = 0;
-            cuttingCounter.ProgressChanged += OnProgressChanged;
+            baseCounter.GetComponent<IProgressTracker>().ProgressChanged += OnProgressChanged;
 
             gameObject.SetActive(false);
         }
         
         private void OnProgressChanged(float fill)
         {
+            Debug.Log(fill);
             if (fill is 0 or >= 1)
             {
                 gameObject.SetActive(false);

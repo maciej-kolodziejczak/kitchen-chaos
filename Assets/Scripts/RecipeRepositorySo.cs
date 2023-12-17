@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using KitchenObject;
+﻿using KitchenObject;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 [System.Serializable]
 public class RecipeMap

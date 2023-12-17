@@ -6,33 +6,34 @@ using UnityEngine;
 namespace Counter
 {
     [RequireComponent(typeof(KitchenObjectSpawner))]
+    [RequireComponent(typeof(StepProgressTracker))]
     public class CuttingCounter : BaseCounter
     {
         [SerializeField] private RecipeRepositorySo recipeRepositorySo;
         
         private KitchenObjectSpawner _kitchenObjectSpawner;
+        private StepProgressTracker _stepProgressTracker;
         
-        // @todo fix this asap
-        private float _currentProgress;
-        public event Action<float> ProgressChanged;
         public event Action CuttingKitchenObject;
         
         public override void Awake()
         {
             base.Awake();
             _kitchenObjectSpawner = GetComponent<KitchenObjectSpawner>();
+            _stepProgressTracker = GetComponent<StepProgressTracker>();
         }
         
         public override void Interact(KitchenObjectInteractor invoker)
         {
+            // Player has something in hand
             if (invoker.HasAttachedKitchenObject())
             {
-                // Player has something in hand
-                UpdateProgress(0f);
-                    
+                // Counter has something on it, swap objects
                 if (Interactor.HasAttachedKitchenObject())
                 {
-                    // Counter has something on it, swap objects
+                    // If cutting is in progress, reset the progress
+                    _stepProgressTracker.ResetProgress();
+                    
                     var playerKitchenObject = invoker.GetAttachedKitchenObject();
                     var counterKitchenObject = Interactor.GetAttachedKitchenObject();
                     
@@ -55,20 +56,24 @@ namespace Counter
                 // Nothing on the counter, nothing to do
                 return;
             }
+            
+            // If cutting is in progress, reset the progress
+            _stepProgressTracker.ResetProgress();
 
             // Player has nothing in hand, trying to grab from counter
             invoker.AttachKitchenObject(Interactor.GetAttachedKitchenObject());
             Interactor.DetachKitchenObject();
-            UpdateProgress(0f);
         }
 
         public override void InteractAlt(KitchenObjectInteractor invoker)
         {
+            // If there's nothing on the counter, nothing to do
             if (!Interactor.HasAttachedKitchenObject())
             {
                 return;
             }
             
+            // Check if object on the counter is cuttable
             var currentObject = Interactor.GetAttachedKitchenObject();
             var recipe = GetRecipe(currentObject.KitchenObjectSo);
 
@@ -77,14 +82,23 @@ namespace Counter
                 return;
             }
             
-            if (_currentProgress < recipe.duration - 1f)
+            // If cutting is not in progress, start it
+            if (!_stepProgressTracker.InProgress)
             {
-                UpdateProgress(_currentProgress + 1f, recipe.duration);
-                CuttingKitchenObject?.Invoke();
+                _stepProgressTracker.StartProgress(recipe.duration);
+            }
+            
+            // Update cutting progress
+            _stepProgressTracker.UpdateProgress();
+            // Notify listeners that cutting is in progress
+            CuttingKitchenObject?.Invoke();
+            
+            if (!_stepProgressTracker.IsCompleted)
+            {
                 return;
             }
-
-            UpdateProgress(0f);
+            
+            // If cutting is completed, spawn the output
             
             // destroy currently handled object
             currentObject.DestroySelf();
@@ -93,12 +107,6 @@ namespace Counter
             // spawn new object
             Interactor.AttachKitchenObject(
                 _kitchenObjectSpawner.SpawnKitchenObject(recipe?.output, Interactor.GetKitchenObjectOrigin()));
-        }
-
-        private void UpdateProgress(float progress, float max = 1)
-        {
-            _currentProgress = progress;
-            ProgressChanged?.Invoke(progress / max);
         }
 
         private RecipeMap GetRecipe(KitchenObjectSo input)
