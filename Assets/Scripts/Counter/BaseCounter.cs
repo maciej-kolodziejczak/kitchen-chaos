@@ -1,20 +1,17 @@
-﻿using System;
-using KitchenObject;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Counter
 {
-    [RequireComponent(typeof(KitchenObjectInteractor))]
-    public abstract class BaseCounter : MonoBehaviour
+    interface IInteractable
     {
-        protected KitchenObjectInteractor Interactor;
-        
-        public virtual void Awake()
+        public void Interact();
+    }
+    
+    public class BaseCounter : MonoBehaviour, IInteractable
+    {
+        public void Interact()
         {
-            Interactor = GetComponent<KitchenObjectInteractor>();
+            Debug.Log("Interacted with counter");
         }
-
-        public virtual void Interact(KitchenObjectInteractor interactor) {}
-        public virtual void InteractAlt(KitchenObjectInteractor interactor) {}
     }
 }
