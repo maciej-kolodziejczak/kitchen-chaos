@@ -46,6 +46,14 @@ namespace Player
             var hasInteractable = hit.collider.TryGetComponent<BaseCounter>(out var interactable);
             
             if (!hasInteractable) return;
+
+            // @todo clean up conditions
+            if (_interactable)
+            {
+                if (_interactable == interactable) return;
+                
+                _interactable.Blur();
+            }
             
             _interactable = interactable;
             _interactable.Focus();

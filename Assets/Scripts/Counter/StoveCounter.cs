@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using Product;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Counter
 {
