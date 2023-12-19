@@ -7,7 +7,7 @@ namespace Player
     {
         public event Action<Vector2> Moving;
         public event Action Interacted;
-        public event Action InteractedAlt;
+        public event Action Used;
     
         private PlayerInputActions _playerControls;
 
@@ -17,7 +17,7 @@ namespace Player
             _playerControls.Enable();
         
             _playerControls.Player.Interact.performed += ctx => Interacted?.Invoke();
-            _playerControls.Player.InteractAlt.performed += ctx => InteractedAlt?.Invoke();
+            _playerControls.Player.InteractAlt.performed += ctx => Used?.Invoke();
         }
     
         private void Update()

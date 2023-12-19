@@ -39,8 +39,7 @@ namespace Player
         private void PerformMovement(Vector2 movementInput)
         {
             if (movementInput == Vector2.zero) return;
-
-            var position = transform.position;
+            
             var moveDirection = new Vector3(movementInput.x, 0, movementInput.y);
             var canMove = !IsColliding(moveDirection);
 

@@ -1,17 +1,27 @@
-﻿using UnityEngine;
+﻿using Player;
+using Product;
+using UnityEngine;
 
 namespace Counter
 {
-    interface IInteractable
+    public class BaseCounter : MonoBehaviour
     {
-        public void Interact();
-    }
-    
-    public class BaseCounter : MonoBehaviour, IInteractable
-    {
-        public void Interact()
+        [SerializeField] private GameObject focusPrefab;
+        
+        public virtual void Interact(ProductHandler invoker)
+        {}
+        
+        public virtual void Use()
+        {}
+        
+        public void Focus()
         {
-            Debug.Log("Interacted with counter");
+            focusPrefab.SetActive(true);
+        }
+        
+        public void Blur()
+        {
+            focusPrefab.SetActive(false);
         }
     }
 }
