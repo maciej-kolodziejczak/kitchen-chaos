@@ -15,6 +15,11 @@ public struct Recipe
 public class RecipesSO : ScriptableObject
 {
     [SerializeField] private Recipe[] recipeRecords;
+    
+    public bool HasRecipe(ProductSO input)
+    {
+        return recipeRecords.Any(recipeRecord => recipeRecord.input == input);
+    }
 
     public ProductSO GetOutput(ProductSO input)
     {

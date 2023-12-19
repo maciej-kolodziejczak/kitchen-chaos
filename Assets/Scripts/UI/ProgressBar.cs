@@ -8,7 +8,7 @@ namespace UI
     public class ProgressBar : MonoBehaviour
     {
         [SerializeField] private Image infill;
-        [SerializeField] private CuttingCounter invoker; // @todo introduce interface
+        [SerializeField] private CounterProgress invoker;
 
         private void Awake()
         {
@@ -18,7 +18,7 @@ namespace UI
 
         private void OnProgressChanged(float progress)
         {
-            gameObject.SetActive(progress is not 0 or >= 1);
+            gameObject.SetActive(progress is > 0 and < 1);
             infill.fillAmount = progress;
         }
     }
