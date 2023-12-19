@@ -5,85 +5,64 @@ namespace Player
     [RequireComponent(typeof(PlayerInputHandler))]
     public class PlayerMovement : MonoBehaviour
     {
-        [SerializeField] private float moveSpeed = 1f;
-        [SerializeField] private float turnSpeed = 1f;
-
-        private const float PlayerHeight = 2f; // @todo consider reading the value
-        private const float PlayerRadius = .7f; // @todo consider reading the value
-        private PlayerInputHandler _playerInputHandler;
+        [SerializeField] private float movementSpeed = 5f;
+        [SerializeField] private float rotationSpeed = 5f;
     
-        private void Start()
-        {
-            _playerInputHandler = GetComponent<PlayerInputHandler>();    
-        }
-
-        private void Update()
-        {
-            HandleMovement();
-        }
-
-        private void HandleMovement()
-        {
-            var inputVector = _playerInputHandler.GetNormalizedInputVector();
-            var moveDirection = new Vector3(inputVector.x, 0, inputVector.y);
+        private PlayerInputHandler _inputHandler;
         
-            var currentPosition = transform.position;
-            var canMove = CanMove(currentPosition, moveDirection);
-
-            ApplyRotation(moveDirection);
-
-            if (canMove)
-            {
-                ApplyMove(moveDirection);
-            }
-            else
-            {
-                HandleCollisionMove(inputVector, currentPosition);
-            }
+        private const float PlayerHeight = 2f;
+        private const float PlayerRadius = .7f;
+    
+        private void Awake()
+        {
+            _inputHandler = GetComponent<PlayerInputHandler>();
+            _inputHandler.Moving += MovingEventHandler;
         }
     
-        private void HandleCollisionMove(Vector2 inputVector, Vector3 currentPosition)
+        private void OnDestroy()
         {
-            var canMoveOnX = !Physics.CapsuleCast(currentPosition, currentPosition + Vector3.up * 2f, .7f, new Vector3(inputVector.x, 0, 0), moveSpeed * Time.deltaTime);
-            var canMoveOnZ = !Physics.CapsuleCast(currentPosition, currentPosition + Vector3.up * 2f, .7f, new Vector3(0, 0, inputVector.y), moveSpeed * Time.deltaTime);
-
-            if (canMoveOnX)
-            {
-                inputVector = new Vector2(inputVector.x, 0).normalized;
-            }
-            else if (canMoveOnZ)
-            {
-                inputVector = new Vector2(0, inputVector.y).normalized;
-            }
-
-
-            if (!canMoveOnX && !canMoveOnZ) return;
-        
-            var moveDirection = new Vector3(inputVector.x, 0, inputVector.y);
-        
-            ApplyMove(moveDirection);
+            _inputHandler.Moving -= MovingEventHandler;
         }
 
-        private void ApplyRotation(Vector3 moveDirection)
+        private void MovingEventHandler(Vector2 movementInput)
         {
-            if (moveDirection == Vector3.zero)
-            {
-                return;
-            }
-        
-            transform.forward = Vector3.Slerp(transform.forward, moveDirection, turnSpeed * Time.deltaTime);
-        }
-    
-        private void ApplyMove(Vector3 moveDirection)
-        {
-            transform.position += moveDirection * (moveSpeed * Time.deltaTime);
+            PerformMovement(movementInput);
+            PerformRotation(movementInput);
         }
 
-        private bool CanMove(Vector3 currentPosition, Vector3 moveDirection)
+        private void PerformRotation(Vector2 movementInput)
         {
-            var maxDistance = moveSpeed * Time.deltaTime;
-        
-            return !Physics.CapsuleCast(currentPosition, currentPosition + Vector3.up * PlayerHeight, PlayerRadius, moveDirection, maxDistance);
+            if (movementInput == Vector2.zero) return;
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(new Vector3(movementInput.x, 0, movementInput.y)), rotationSpeed * Time.deltaTime);
+        }
+
+        private void PerformMovement(Vector2 movementInput)
+        {
+            if (movementInput == Vector2.zero) return;
+            
+            var moveDirection = new Vector3(movementInput.x, 0, movementInput.y);
+            var canMove = !IsColliding(moveDirection);
+
+            if (!canMove)
+            {
+                var canMoveOnX = !IsColliding(new Vector3(movementInput.x, 0, 0));
+                var canMoveOnZ = !IsColliding(new Vector3(0, 0, movementInput.y));
+                
+                if (!canMoveOnX && !canMoveOnZ) return;
+
+                moveDirection = canMoveOnX ? new Vector3(movementInput.x, 0, 0) : new Vector3(0, 0, movementInput.y);
+                moveDirection.Normalize();
+            }
+            
+            transform.position += moveDirection * (movementSpeed * Time.deltaTime);
+        }
+
+        private bool IsColliding(Vector3 direction)
+        {
+            var position = transform.position;
+            
+            return Physics.CapsuleCast(position, position + Vector3.up * PlayerHeight,
+                PlayerRadius, direction, movementSpeed * Time.deltaTime);
         }
     }
 }

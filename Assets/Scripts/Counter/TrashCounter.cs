@@ -1,15 +1,15 @@
-using KitchenObject;
+﻿using Product;
 
 namespace Counter
 {
     public class TrashCounter : BaseCounter
     {
-        public override void Interact(KitchenObjectInteractor invoker)
+        public override void Interact(ProductHandler invoker)
         {
-            if (!invoker.HasAttachedKitchenObject()) return;
+            if (!invoker.HasProduct) return;
             
-            invoker.GetAttachedKitchenObject().DestroySelf();
-            invoker.DetachKitchenObject();
+            invoker.Product.Destroy();
+            invoker.DropProduct();
         }
     }
 }

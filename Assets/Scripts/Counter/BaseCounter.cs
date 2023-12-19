@@ -1,20 +1,27 @@
-﻿using System;
-using KitchenObject;
+﻿using Player;
+using Product;
 using UnityEngine;
 
 namespace Counter
 {
-    [RequireComponent(typeof(KitchenObjectInteractor))]
-    public abstract class BaseCounter : MonoBehaviour
+    public class BaseCounter : MonoBehaviour
     {
-        protected KitchenObjectInteractor Interactor;
+        [SerializeField] private GameObject focusPrefab;
         
-        public virtual void Awake()
+        public virtual void Interact(ProductHandler invoker)
+        {}
+        
+        public virtual void Use()
+        {}
+        
+        public void Focus()
         {
-            Interactor = GetComponent<KitchenObjectInteractor>();
+            focusPrefab.SetActive(true);
         }
-
-        public virtual void Interact(KitchenObjectInteractor interactor) {}
-        public virtual void InteractAlt(KitchenObjectInteractor interactor) {}
+        
+        public void Blur()
+        {
+            focusPrefab.SetActive(false);
+        }
     }
 }

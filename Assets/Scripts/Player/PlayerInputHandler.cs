@@ -1,36 +1,29 @@
 using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Player
 {
     public class PlayerInputHandler : MonoBehaviour
     {
-        private PlayerInputActions _playerInputActions;
-        public event Action<InputAction.CallbackContext> Interact;
-        public event Action<InputAction.CallbackContext> InteractAlt;
+        public event Action<Vector2> Moving;
+        public event Action Interacted;
+        public event Action Used;
     
+        private PlayerInputActions _playerControls;
+
         private void Awake()
         {
-            _playerInputActions = new PlayerInputActions();
-            _playerInputActions.Player.Enable();
+            _playerControls = new PlayerInputActions();
+            _playerControls.Enable();
         
-            _playerInputActions.Player.Interact.performed += ctx => Interact?.Invoke(ctx);
-            _playerInputActions.Player.InteractAlt.performed += ctx => InteractAlt?.Invoke(ctx);
+            _playerControls.Player.Interact.performed += ctx => Interacted?.Invoke();
+            _playerControls.Player.InteractAlt.performed += ctx => Used?.Invoke();
         }
-
-        public Vector2 GetInputVector()
+    
+        private void Update()
         {
-            return _playerInputActions.Player.Move.ReadValue<Vector2>();
-        }
-
-        public Vector2 GetNormalizedInputVector()
-        {
-            var inputVector = GetInputVector();
-        
-            inputVector.Normalize();
-        
-            return inputVector;
+            var movementInput = _playerControls.Player.Move.ReadValue<Vector2>();
+            Moving?.Invoke(movementInput);
         }
     }
 }

@@ -1,117 +1,76 @@
-using System;
-using System.Linq;
-using KitchenObject;
+﻿using System;
+using Product;
 using UnityEngine;
 
 namespace Counter
 {
-    [RequireComponent(typeof(KitchenObjectSpawner))]
-    [RequireComponent(typeof(StepProgressTracker))]
+    [RequireComponent(typeof(ProductHandler))]
     public class CuttingCounter : BaseCounter
-    {
-        [SerializeField] private RecipeRepositorySo recipeRepositorySo;
+    { 
+        [SerializeField] private RecipesSO recipesSO;
         
-        private KitchenObjectSpawner _kitchenObjectSpawner;
-        private StepProgressTracker _stepProgressTracker;
+        public event Action<float> ProgressChanged;
         
-        public event Action CuttingKitchenObject;
-        
-        public override void Awake()
+        private ProductHandler _productHandler;
+
+        private float _cuttingProgress; 
+
+        private void Awake()
         {
-            base.Awake();
-            _kitchenObjectSpawner = GetComponent<KitchenObjectSpawner>();
-            _stepProgressTracker = GetComponent<StepProgressTracker>();
+            _productHandler = GetComponent<ProductHandler>();
         }
         
-        public override void Interact(KitchenObjectInteractor invoker)
+        public override void Interact(ProductHandler invoker)
         {
-            // Player has something in hand
-            if (invoker.HasAttachedKitchenObject())
+            if (!invoker.HasProduct)
             {
-                // Counter has something on it, swap objects
-                if (Interactor.HasAttachedKitchenObject())
-                {
-                    // If cutting is in progress, reset the progress
-                    _stepProgressTracker.ResetProgress();
-                    
-                    var playerKitchenObject = invoker.GetAttachedKitchenObject();
-                    var counterKitchenObject = Interactor.GetAttachedKitchenObject();
-                    
-                    Interactor.AttachKitchenObject(playerKitchenObject);
-                    invoker.AttachKitchenObject(counterKitchenObject);
-                    
-                    return;
-                }
+                if (!_productHandler.HasProduct) return;
 
-                // Counter is empty, player puts the object on the counter
-                Interactor.AttachKitchenObject(invoker.GetAttachedKitchenObject());
-                invoker.DetachKitchenObject();
-                    
-                return;
-            }
+                invoker.PickUpProduct(_productHandler.Product);
+                _productHandler.DropProduct();
+                
+                _cuttingProgress = 0;
+                ProgressChanged?.Invoke(0);
 
-            // Player has nothing in hand
-            if (!Interactor.HasAttachedKitchenObject())
-            {
-                // Nothing on the counter, nothing to do
                 return;
             }
             
-            // If cutting is in progress, reset the progress
-            _stepProgressTracker.ResetProgress();
-
-            // Player has nothing in hand, trying to grab from counter
-            invoker.AttachKitchenObject(Interactor.GetAttachedKitchenObject());
-            Interactor.DetachKitchenObject();
+            if (_productHandler.HasProduct) return;
+            
+            _productHandler.PickUpProduct(invoker.Product);
+            invoker.DropProduct();
+            
+            _cuttingProgress = 0;
+            ProgressChanged?.Invoke(0);
         }
-
-        public override void InteractAlt(KitchenObjectInteractor invoker)
+        
+        public override void Use()
         {
-            // If there's nothing on the counter, nothing to do
-            if (!Interactor.HasAttachedKitchenObject())
-            {
-                return;
-            }
+            if (!_productHandler.HasProduct) return;
             
-            // Check if object on the counter is cuttable
-            var currentObject = Interactor.GetAttachedKitchenObject();
-            var recipe = GetRecipe(currentObject.KitchenObjectSo);
+            var product = _productHandler.Product;
+            var recipe = recipesSO.GetOutput(product.ProductSO);
+            
+            if (recipe == null) return;
+            
+            var maxProgress = recipesSO.GetDuration(product.ProductSO);
 
-            if (recipe == null)
+            if (_cuttingProgress < maxProgress - 1)
             {
+                _cuttingProgress++;
+                ProgressChanged?.Invoke(_cuttingProgress / maxProgress);
                 return;
             }
-            
-            // If cutting is not in progress, start it
-            if (!_stepProgressTracker.InProgress)
-            {
-                _stepProgressTracker.StartProgress(recipe.duration);
-            }
-            
-            // Update cutting progress
-            _stepProgressTracker.UpdateProgress();
-            // Notify listeners that cutting is in progress
-            CuttingKitchenObject?.Invoke();
-            
-            if (!_stepProgressTracker.IsCompleted)
-            {
-                return;
-            }
-            
-            // If cutting is completed, spawn the output
-            
-            // destroy currently handled object
-            currentObject.DestroySelf();
-            Interactor.DetachKitchenObject();
-            
-            // spawn new object
-            Interactor.AttachKitchenObject(
-                _kitchenObjectSpawner.SpawnKitchenObject(recipe?.output, Interactor.GetKitchenObjectOrigin()));
-        }
 
-        private RecipeMap GetRecipe(KitchenObjectSo input)
-        {
-            return recipeRepositorySo.recipeMaps.FirstOrDefault(recipeMap => recipeMap.input == input);
+            var newProduct = Instantiate(recipe.prefab, _productHandler.ProductOrigin).GetComponent<Product.Product>();
+            newProduct.SetOrigin(_productHandler.ProductOrigin);
+            
+            product.Destroy();
+            _productHandler.PickUpProduct(newProduct);
+            
+            _cuttingProgress = 0;
+            ProgressChanged?.Invoke(0);
         }
+        
     }
 }
