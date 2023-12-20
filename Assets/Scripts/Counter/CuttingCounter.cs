@@ -4,19 +4,19 @@ using UnityEngine;
 
 namespace Counter
 {
-    [RequireComponent(typeof(CounterProgress))]
+    [RequireComponent(typeof(ProgressTracker))]
     [RequireComponent(typeof(ProductHandler))]
     public class CuttingCounter : BaseCounter
     { 
         [SerializeField] private RecipesSO recipesSO;
         
         private ProductHandler _productHandler;
-        private CounterProgress _counterProgress;
+        private ProgressTracker progressTracker;
 
         private void Awake()
         {
             _productHandler = GetComponent<ProductHandler>();
-            _counterProgress = GetComponent<CounterProgress>();
+            progressTracker = GetComponent<ProgressTracker>();
         }
         
         public override void Interact(ProductHandler invoker)
@@ -28,7 +28,7 @@ namespace Counter
                 invoker.PickUpProduct(_productHandler.Product);
                 _productHandler.DropProduct();
                 
-                _counterProgress.ResetProgress();
+                progressTracker.ResetProgress();
 
                 return;
             }
@@ -38,7 +38,7 @@ namespace Counter
             _productHandler.PickUpProduct(invoker.Product);
             invoker.DropProduct();
             
-            _counterProgress.ResetProgress();
+            progressTracker.ResetProgress();
         }
         
         public override void Use()
@@ -52,17 +52,17 @@ namespace Counter
             
             var maxProgress = recipesSO.GetDuration(product.ProductSO);
             
-            if (!_counterProgress.HasStarted)
+            if (!progressTracker.HasStarted)
             {
-                _counterProgress.StartProgress(maxProgress);
+                progressTracker.StartProgress(maxProgress);
             }
 
-            if (_counterProgress.IsInProgress)
+            if (progressTracker.IsInProgress)
             {
-                _counterProgress.Progress(1);
+                progressTracker.Progress(1);
             }
             
-            if (!_counterProgress.IsFinished) return;
+            if (!progressTracker.IsFinished) return;
 
             var newProduct = Instantiate(recipe.prefab, _productHandler.ProductOrigin).GetComponent<Product.Product>();
             newProduct.SetOrigin(_productHandler.ProductOrigin);
@@ -70,7 +70,7 @@ namespace Counter
             product.Destroy();
             _productHandler.PickUpProduct(newProduct);
             
-            _counterProgress.ResetProgress();
+            progressTracker.ResetProgress();
         }
         
     }

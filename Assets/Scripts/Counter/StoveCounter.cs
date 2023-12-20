@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Counter
 {
     [RequireComponent(typeof(ProductHandler))]
-    [RequireComponent(typeof(CounterProgress))]
+    [RequireComponent(typeof(ProgressTracker))]
     public class StoveCounter : BaseCounter
     {
         [SerializeField] private RecipesSO recipesSO;
@@ -13,12 +13,12 @@ namespace Counter
         [SerializeField] private GameObject particlesEffect;
         
         private ProductHandler _productHandler;
-        private CounterProgress _counterProgress;
+        private ProgressTracker progressTracker;
 
         private void Awake()
         {
             _productHandler = GetComponent<ProductHandler>();
-            _counterProgress = GetComponent<CounterProgress>();
+            progressTracker = GetComponent<ProgressTracker>();
         }
 
         private IEnumerator RunProgress()
@@ -32,17 +32,17 @@ namespace Counter
                 
                 if (!recipesSO.HasRecipe(input)) yield break;
                 
-                if (!_counterProgress.HasStarted)
+                if (!progressTracker.HasStarted)
                 {
-                    _counterProgress.StartProgress(recipesSO.GetDuration(input));
+                    progressTracker.StartProgress(recipesSO.GetDuration(input));
                 }
                 
-                if (_counterProgress.IsInProgress)
+                if (progressTracker.IsInProgress)
                 {
-                    _counterProgress.Progress(interval);
+                    progressTracker.Progress(interval);
                 }
                 
-                if (_counterProgress.IsFinished)
+                if (progressTracker.IsFinished)
                 {
                     
                     var recipe = recipesSO.GetOutput(input);
@@ -52,7 +52,7 @@ namespace Counter
                     product.Destroy();
                     _productHandler.PickUpProduct(newProduct);
                     
-                    _counterProgress.ResetProgress();
+                    progressTracker.ResetProgress();
 
                     yield return null;
                 }
@@ -73,7 +73,7 @@ namespace Counter
                 StopCoroutine(RunProgress());
                 heatingEffect.SetActive(false);
                 particlesEffect.SetActive(false);
-                _counterProgress.ResetProgress();
+                progressTracker.ResetProgress();
 
                 return;
             }
@@ -88,7 +88,7 @@ namespace Counter
             StartCoroutine(RunProgress());
             heatingEffect.SetActive(true);
             particlesEffect.SetActive(true);
-            _counterProgress.ResetProgress();
+            progressTracker.ResetProgress();
         }
     }
 }

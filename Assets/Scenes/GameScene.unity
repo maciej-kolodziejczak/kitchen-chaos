@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028326, g: 0.22571333, b: 0.30692202, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1135,8 +1135,8 @@ GameObject:
   - component: {fileID: 634386496}
   - component: {fileID: 634386495}
   - component: {fileID: 634386498}
-  - component: {fileID: 634386499}
-  - component: {fileID: 634386500}
+  - component: {fileID: 634386502}
+  - component: {fileID: 634386501}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1200,7 +1200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 295836458}
---- !u!114 &634386499
+--- !u!114 &634386501
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1209,14 +1209,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 634386494}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d34d1d1db6141f8aa09358b94768be6, type: 3}
+  m_Script: {fileID: 11500000, guid: 1bd43c8925ac471ea1fad782d1685d87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactDistance: 1
   interactableLayers:
     serializedVersion: 2
     m_Bits: 64
-  interactionDistance: 2
---- !u!114 &634386500
+--- !u!114 &634386502
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1225,10 +1225,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 634386494}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68cf4910478141138c9d3777152ffa8c, type: 3}
+  m_Script: {fileID: 11500000, guid: 0ec59153b47d49e5af509922becf1976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productOrigin: {fileID: 1229274752}
+  holdPoint: {fileID: 1229274752}
 --- !u!4 &680391335 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7223602446953955971, guid: 105248c3921a3534e8fe59f7f68a8d82,

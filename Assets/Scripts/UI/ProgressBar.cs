@@ -8,7 +8,7 @@ namespace UI
     public class ProgressBar : MonoBehaviour
     {
         [SerializeField] private Image infill;
-        [SerializeField] private CounterProgress invoker;
+        [SerializeField] private ProgressTracker invoker;
 
         private void Awake()
         {
