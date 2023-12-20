@@ -15,20 +15,24 @@ public class CounterStove : CounterBase
     
     private IEnumerator Cook()
     {
-        const float interval = 1;
+        const float interval = .1f;
         
         while (Holder.AttachedHoldable is Ingredient ingredient)
         {
             if (ingredient.IngredientSO is not IngredientCookableSO cookableSO) yield break;
-
+            
             if (!_progressTracker.IsInProgress)
             {
                 _progressTracker.StartProgress(cookableSO.cookTime);
             }
             
             _progressTracker.Progress(interval);
-            
-            if (!_progressTracker.IsFinished) continue;
+
+            if (!_progressTracker.IsFinished)
+            {
+                yield return new WaitForSeconds(interval);
+                continue;
+            };
             
             var cookedResult = cookableSO.cookedResult;
             var newGameObject = Instantiate(cookedResult.prefab, Holder.HoldPoint);
@@ -38,8 +42,8 @@ public class CounterStove : CounterBase
             Holder.Attach(newGameObject.GetComponent<Ingredient>());
             
             _progressTracker.ResetProgress();
-            
-            yield return new WaitForSeconds(interval);
+
+            yield return null;
         }
     }
 
