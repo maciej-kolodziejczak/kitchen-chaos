@@ -20,6 +20,8 @@ public class CounterCutting : CounterBase, ICutter
             
             invoker.Attach(Holder.AttachedHoldable);
             Holder.Detach();
+            
+            _progressTracker.ResetProgress();
 
             return;
         }
@@ -30,6 +32,8 @@ public class CounterCutting : CounterBase, ICutter
         
         Holder.Attach(invoker.AttachedHoldable);
         invoker.Detach();
+        
+        _progressTracker.ResetProgress();
     }
 
     public void Cut()
