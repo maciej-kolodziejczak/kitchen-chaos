@@ -40,11 +40,11 @@ namespace Counter
         public override void Interact(IHolder invoker)
         {
             if (invoker.IsHolding) return;
-
-            var plate = _plates.Pop();
+            if (_plates.Count == 0) return;
+            
+            var plate = _plates.Pop().GetComponent<Plate>();
         
-            // temp
-            Destroy(plate);
+            invoker.Attach(plate);
         
             StopAllCoroutines();
             StartCoroutine(SpawnPlates());
