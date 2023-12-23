@@ -20,8 +20,6 @@ namespace Recipe
         {
             if (Instance != null && Instance != this) Destroy(gameObject);
             else Instance = this;
-            
-            Debug.Log(GetAvailableIngredients().Count);
         }
     }
 }

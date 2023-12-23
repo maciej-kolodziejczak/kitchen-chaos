@@ -117,9 +117,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   focusGameObject: {fileID: 7145075600017771615}
   maxPlateCount: 5
+  plateSpawnInterval: 4
   platePrefab: {fileID: 7318295442261517994, guid: ce6374868b80839448162abeec158e55,
     type: 3}
-  plateSpawnInterval: 4
+  plateVisualPrefab: {fileID: 3812876574508226177, guid: c0c9afd619b40914a8f625c0535e2284,
+    type: 3}
 --- !u!4 &5981114800258155015 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5044587963760272435, guid: 8d5e79a73c8eb8345ba8f36815db8d4f,

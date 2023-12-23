@@ -20,7 +20,6 @@ public class Plate : MonoBehaviour, IHoldable, IDestroyable
     public bool TryAddIngredient(IngredientSO ingredientSO)
     {
         var availableIngredients = RecipeManager.Instance.GetAvailableIngredients();
-        
         return availableIngredients.Contains(ingredientSO) && _ingredients.Add(ingredientSO);
     }
 
