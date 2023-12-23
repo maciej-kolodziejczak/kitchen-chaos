@@ -13,22 +13,19 @@ namespace Counter
 
           public override void Interact(IHolder invoker)
           {
-               if (invoker.IsHolding && invoker.AttachedHoldable is not Plate) return;
-               
-               if (invoker.AttachedHoldable is Plate plate)
+               if (invoker.IsHolding)
                {
+                    if (invoker.AttachedHoldable is not Plate plate) return;
                     if (!plate.TryAddIngredient(ingredientSO)) return;
                     animator.SetTrigger(OpenClose);
                     return;
                }
-
+               
                var newGameObject =
                     Instantiate(ingredientSO.prefab, invoker.HoldPoint);
 
                invoker.Attach(newGameObject.GetComponent<Ingredient.Ingredient>());
                animator.SetTrigger(OpenClose);
-
-               return;
           }
      }
 }

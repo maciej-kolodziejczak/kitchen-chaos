@@ -52,27 +52,38 @@ namespace Counter
 
         public override void Interact(IHolder invoker)
         {
-            if (!invoker.IsHolding)
+            if (!Holder.IsHolding)
             {
-                if (!Holder.IsHolding) return;
-            
-                invoker.Attach(Holder.AttachedHoldable);
-                Holder.Detach();
-            
-                StopCoroutine(Cook());
-                _progressTracker.ResetProgress();
-
+                if (!invoker.IsHolding) return;
+                if (invoker.AttachedHoldable is not Ingredient.Ingredient { IngredientSO: IngredientCookableSO } cookable) return;
+                
+                Holder.Attach(cookable);
+                invoker.Detach();
+                
+                StartCoroutine(Cook());
                 return;
             }
-        
-            if (Holder.IsHolding) return;
-            if (invoker.AttachedHoldable is not Ingredient.Ingredient ingredient) return;
-            if (ingredient.IngredientSO is not IngredientCookableSO cookableSO) return;
-        
-            Holder.Attach(ingredient);
-            invoker.Detach();
-
-            StartCoroutine(Cook());
+            
+            if (!invoker.IsHolding)
+            {
+                invoker.Attach(Holder.AttachedHoldable);
+                Holder.Detach();
+                
+                StopAllCoroutines();
+                _progressTracker.ResetProgress();
+                return;
+            }
+            
+            if (invoker.AttachedHoldable is not Plate plate) return;
+            if (Holder.AttachedHoldable is not Ingredient.Ingredient ingredient) return;
+            
+            if (!plate.TryAddIngredient(ingredient.IngredientSO)) return;
+            
+            Holder.Detach();
+            ingredient.Destroy();
+            
+            StopAllCoroutines();
+            _progressTracker.ResetProgress();
         }
     }
 }

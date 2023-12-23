@@ -17,25 +17,36 @@ namespace Counter
 
         public override void Interact(IHolder invoker)
         {
-            if (!invoker.IsHolding)
+            if (!Holder.IsHolding)
             {
-                if (!Holder.IsHolding) return;
-            
-                invoker.Attach(Holder.AttachedHoldable);
-                Holder.Detach();
-            
+                if (!invoker.IsHolding) return;
+                if (invoker.AttachedHoldable is not Ingredient.Ingredient { IngredientSO: IngredientCuttableSO } cuttable) return;
+                
+                Holder.Attach(cuttable);
+                invoker.Detach();
+                
                 _progressTracker.ResetProgress();
-
+                
                 return;
             }
-        
-            if (Holder.IsHolding) return;
-            if (invoker.AttachedHoldable is not Ingredient.Ingredient ingredient) return;
-            if (ingredient.IngredientSO is not IngredientCuttableSO) return;
-        
-            Holder.Attach(invoker.AttachedHoldable);
-            invoker.Detach();
-        
+
+            if (!invoker.IsHolding)
+            {
+                invoker.Attach(Holder.AttachedHoldable);
+                Holder.Detach();
+                
+                _progressTracker.ResetProgress();
+                return;
+            }
+
+            if (invoker.AttachedHoldable is not Plate plate) return;
+            if (Holder.AttachedHoldable is not Ingredient.Ingredient ingredient) return;
+            
+            if (!plate.TryAddIngredient(ingredient.IngredientSO)) return;
+            
+            Holder.Detach();
+            ingredient.Destroy();
+            
             _progressTracker.ResetProgress();
         }
 
@@ -43,7 +54,6 @@ namespace Counter
         {
             if (!Holder.IsHolding) return;
             if (Holder.AttachedHoldable is not Ingredient.Ingredient ingredient) return;
-            Debug.Log(ingredient.IngredientSO);
             if (ingredient.IngredientSO is not IngredientCuttableSO cuttableSO) return;
         
             var cutCount = cuttableSO.cutCount;
