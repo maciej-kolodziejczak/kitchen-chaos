@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Burger 1
   m_EditorClassIdentifier: 
   ingredients:
+  - {fileID: 11400000, guid: 8bbdfb8fe6caf5945b6b368b55fbb899, type: 2}
+  - {fileID: 11400000, guid: 7635a6a62424c4ef9862197e5546d1c5, type: 2}
   - {fileID: 11400000, guid: 20538b1daf6944d37b2206541eaf041a, type: 2}
   - {fileID: 11400000, guid: 6c7f44aa620c54eda857abd2965ec6a9, type: 2}
   - {fileID: 11400000, guid: 99cce23d447314dec844f691192879d7, type: 2}
-  - {fileID: 11400000, guid: 7635a6a62424c4ef9862197e5546d1c5, type: 2}
