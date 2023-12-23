@@ -16,6 +16,8 @@ public class Plate : MonoBehaviour, IHoldable, IDestroyable
     
     [SerializeField] private List<GameObjectMap> ingredientPrefabs;
     
+    public event Action<IngredientSO> IngredientAdded;
+    
     private readonly HashSet<IngredientSO> _ingredients = new();
 
     public void HoldAt(IHolder holder)
@@ -32,8 +34,11 @@ public class Plate : MonoBehaviour, IHoldable, IDestroyable
         if (!RecipeManager.Instance.GetAvailableIngredients().Contains(ingredientSO)) return false;
         if (!_ingredients.Add(ingredientSO)) return false;
         
+        IngredientAdded?.Invoke(ingredientSO);
+        
         var ingredientVisual = ingredientPrefabs.Find(map => map.ingredientSO == ingredientSO).prefab;
         ingredientVisual.SetActive(true);
+        
         return true;
     }
 
