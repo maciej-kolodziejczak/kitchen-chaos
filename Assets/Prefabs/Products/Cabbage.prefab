@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4463033895416275266}
-  - component: {fileID: 3750554826940398693}
+  - component: {fileID: 6441028159010445875}
   m_Layer: 0
   m_Name: Cabbage
   m_TagString: Untagged
@@ -33,7 +33,7 @@ Transform:
   - {fileID: 6860623035776088045}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3750554826940398693
+--- !u!114 &6441028159010445875
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,10 +42,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 6065372464095026559}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d7e38e5567a34098902f503378df4a7f, type: 3}
+  m_Script: {fileID: 11500000, guid: 1e6c684a2f11431193838bd0093f9b58, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productSO: {fileID: 11400000, guid: 8c550a5e6c560564c9e8c2477fbad06b, type: 2}
+  ingredientSO: {fileID: 11400000, guid: 912cc08e4e0e14b5387b322717e6fb9c, type: 2}
 --- !u!1001 &7773172576812212589
 PrefabInstance:
   m_ObjectHideFlags: 0

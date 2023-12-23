@@ -193,7 +193,11 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 1659927640023141876, guid: 8d5e79a73c8eb8345ba8f36815db8d4f,
         type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7261857953701420524}
+      addedObject: {fileID: 5740499814618258832}
+    - targetCorrespondingSourceObject: {fileID: 1659927640023141876, guid: 8d5e79a73c8eb8345ba8f36815db8d4f,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4894130096034600971}
   m_SourcePrefab: {fileID: 100100000, guid: 8d5e79a73c8eb8345ba8f36815db8d4f, type: 3}
 --- !u!1 &1870699784157974062 stripped
 GameObject:
@@ -201,7 +205,7 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1080636234558882778}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &7261857953701420524
+--- !u!114 &5740499814618258832
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -210,13 +214,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 1870699784157974062}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a22e031bcc9f4a05b02b4d0ecf403176, type: 3}
+  m_Script: {fileID: 11500000, guid: 0ec59153b47d49e5af509922becf1976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  focusPrefab: {fileID: 4245714028191269095}
+  holdPoint: {fileID: 7733346554656694990}
+--- !u!114 &4894130096034600971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1870699784157974062}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f15fa47cb9454024b9d964c7c02da10f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  focusGameObject: {fileID: 4245714028191269095}
 --- !u!4 &5259864515254167529 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5044587963760272435, guid: 8d5e79a73c8eb8345ba8f36815db8d4f,
+    type: 3}
+  m_PrefabInstance: {fileID: 1080636234558882778}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7733346554656694990 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7326632401696842004, guid: 8d5e79a73c8eb8345ba8f36815db8d4f,
     type: 3}
   m_PrefabInstance: {fileID: 1080636234558882778}
   m_PrefabAsset: {fileID: 0}

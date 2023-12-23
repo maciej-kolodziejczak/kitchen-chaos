@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0e302e05d9b4cb693306ffd662031d9, type: 3}
+  m_Name: MeatPattyUncooked
+  m_EditorClassIdentifier: 
+  name: Meat Patty Uncooked
+  sprite: {fileID: 21300000, guid: aa1bacc24dde76e47b2ec0dd4e82385b, type: 3}
+  prefab: {fileID: 6065372464095026559, guid: b1d8f2a1758c4d746987f41263dd7489, type: 3}
+  cookedResult: {fileID: 11400000, guid: 7635a6a62424c4ef9862197e5546d1c5, type: 2}
+  cookTime: 5

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028326, g: 0.22571333, b: 0.30692202, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1135,8 +1135,8 @@ GameObject:
   - component: {fileID: 634386496}
   - component: {fileID: 634386495}
   - component: {fileID: 634386498}
-  - component: {fileID: 634386499}
-  - component: {fileID: 634386500}
+  - component: {fileID: 634386502}
+  - component: {fileID: 634386501}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1156,8 +1156,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af08420885323d6439cc879d6642df84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 5
-  rotationSpeed: 5
+  movementSpeed: 7
+  rotationSpeed: 10
 --- !u!114 &634386496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1200,7 +1200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 295836458}
---- !u!114 &634386499
+--- !u!114 &634386501
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1209,14 +1209,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 634386494}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d34d1d1db6141f8aa09358b94768be6, type: 3}
+  m_Script: {fileID: 11500000, guid: 1bd43c8925ac471ea1fad782d1685d87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  interactDistance: 1
   interactableLayers:
     serializedVersion: 2
     m_Bits: 64
-  interactionDistance: 2
---- !u!114 &634386500
+--- !u!114 &634386502
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1225,10 +1225,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 634386494}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 68cf4910478141138c9d3777152ffa8c, type: 3}
+  m_Script: {fileID: 11500000, guid: 0ec59153b47d49e5af509922becf1976, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  productOrigin: {fileID: 1229274752}
+  holdPoint: {fileID: 1229274752}
 --- !u!4 &680391335 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7223602446953955971, guid: 105248c3921a3534e8fe59f7f68a8d82,
@@ -2096,6 +2096,51 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 440468616}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1707678107
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1707678109}
+  - component: {fileID: 1707678108}
+  m_Layer: 0
+  m_Name: RecipeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1707678108
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1707678107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe7f188964944041b8847ac613b898e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recipeRepositorySO: {fileID: 11400000, guid: 539389f490920484281380bcd10f9ff5, type: 2}
+--- !u!4 &1707678109
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1707678107}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1737115006
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2640,3 +2685,4 @@ SceneRoots:
   - {fileID: 2101800330}
   - {fileID: 634386497}
   - {fileID: 331056980}
+  - {fileID: 1707678109}
