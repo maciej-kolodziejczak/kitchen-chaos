@@ -1,3 +1,4 @@
+using System;
 using Common;
 using UnityEngine;
 
@@ -19,10 +20,13 @@ namespace Player
         {
             _holder = GetComponent<Holder>();
             _inputHandler = GetComponent<PlayerInputHandler>(); ;
+        }
 
+        private void Start()
+        {
             _inputHandler.Moving += MovingEventHandler;
             _inputHandler.Interacted += InteractedEventHandler;
-            _inputHandler.Used += CutEventHandler;
+            _inputHandler.Used += UseEventHandler;
         }
 
         private void Update()
@@ -49,10 +53,10 @@ namespace Player
             _interactable?.Interact(_holder);
         }
     
-        private void CutEventHandler()
+        private void UseEventHandler()
         {
-            if (_interactable is not ICutter cutter) return;
-            cutter.Cut();
+            if (_interactable is not IUsable usable) return;
+            usable.Use();
         }
 
         private void MovingEventHandler(Vector2 movementInput)

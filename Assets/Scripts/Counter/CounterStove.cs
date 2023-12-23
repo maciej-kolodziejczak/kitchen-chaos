@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Common;
 using Ingredient;
@@ -8,6 +9,9 @@ namespace Counter
     [RequireComponent(typeof(ProgressTracker))]
     public class CounterStove : CounterBase
     {
+        public event Action CookingStarted;
+        public event Action CookingStopped;
+
         private ProgressTracker _progressTracker;
 
         protected override void Awake()
@@ -50,6 +54,19 @@ namespace Counter
             }
         }
 
+        private void StartCooking()
+        {
+            CookingStarted?.Invoke();
+            StartCoroutine(Cook());
+        }
+
+        private void StopCooking()
+        {
+            StopCoroutine(Cook());
+            _progressTracker.ResetProgress();
+            CookingStopped?.Invoke();
+        }
+
         public override void Interact(IHolder invoker)
         {
             if (!Holder.IsHolding)
@@ -60,7 +77,7 @@ namespace Counter
                 Holder.Attach(cookable);
                 invoker.Detach();
                 
-                StartCoroutine(Cook());
+                StartCooking();
                 return;
             }
             
@@ -69,8 +86,7 @@ namespace Counter
                 invoker.Attach(Holder.AttachedHoldable);
                 Holder.Detach();
                 
-                StopAllCoroutines();
-                _progressTracker.ResetProgress();
+                StopCooking();
                 return;
             }
             
@@ -82,8 +98,7 @@ namespace Counter
             Holder.Detach();
             ingredient.Destroy();
             
-            StopAllCoroutines();
-            _progressTracker.ResetProgress();
+            StopCooking();
         }
     }
 }

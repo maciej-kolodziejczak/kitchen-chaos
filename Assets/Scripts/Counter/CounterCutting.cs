@@ -1,3 +1,4 @@
+using System;
 using Common;
 using Ingredient;
 using UnityEngine;
@@ -5,8 +6,10 @@ using UnityEngine;
 namespace Counter
 {
     [RequireComponent(typeof(ProgressTracker))]
-    public class CounterCutting : CounterBase, ICutter
+    public class CounterCutting : CounterBase, IUsable
     {
+        public event Action Cut;
+        
         private ProgressTracker _progressTracker;
 
         protected override void Awake()
@@ -50,7 +53,7 @@ namespace Counter
             _progressTracker.ResetProgress();
         }
 
-        public void Cut()
+        public void Use()
         {
             if (!Holder.IsHolding) return;
             if (Holder.AttachedHoldable is not Ingredient.Ingredient ingredient) return;
@@ -63,6 +66,7 @@ namespace Counter
                 _progressTracker.StartProgress(cutCount);
             }
         
+            Cut?.Invoke();
             _progressTracker.Progress(1);
         
             if (!_progressTracker.IsFinished) return;

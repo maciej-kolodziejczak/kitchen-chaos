@@ -1,3 +1,4 @@
+using System;
 using Common;
 using Ingredient;
 using UnityEngine;
@@ -7,9 +8,8 @@ namespace Counter
      public class CounterSupply : CounterBase
      {
           [SerializeField] private IngredientSO ingredientSO;
-          [SerializeField] private Animator animator;
-     
-          private static readonly int OpenClose = Animator.StringToHash("OpenClose");
+          
+          public event Action Opened;
 
           public override void Interact(IHolder invoker)
           {
@@ -17,7 +17,7 @@ namespace Counter
                {
                     if (invoker.AttachedHoldable is not Plate plate) return;
                     if (!plate.TryAddIngredient(ingredientSO)) return;
-                    animator.SetTrigger(OpenClose);
+                    Opened?.Invoke();
                     return;
                }
                
@@ -25,7 +25,7 @@ namespace Counter
                     Instantiate(ingredientSO.prefab, invoker.HoldPoint);
 
                invoker.Attach(newGameObject.GetComponent<Ingredient.Ingredient>());
-               animator.SetTrigger(OpenClose);
+               Opened?.Invoke();
           }
      }
 }
