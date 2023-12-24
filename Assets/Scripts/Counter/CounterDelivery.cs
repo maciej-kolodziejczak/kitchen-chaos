@@ -10,9 +10,11 @@ namespace Counter
         public override void Interact(IHolder invoker)
         {
             if (!invoker.IsHolding || invoker.AttachedHoldable is not Plate plate) return;
-            if (!RecipeManager.Instance.TryGetMatchingRecipe(plate.Ingredients.ToList(), out var recipe)) return;
 
-            switch (OrderManager.Instance.TryFulfillOrder(recipe))
+            var hasMatchingRecipe =
+                RecipeManager.Instance.TryGetMatchingRecipe(plate.Ingredients.ToList(), out var recipe);
+
+            switch (hasMatchingRecipe && OrderManager.Instance.TryFulfillOrder(recipe))
             {
                 case true:
                     Debug.Log("Recipe delivered");
