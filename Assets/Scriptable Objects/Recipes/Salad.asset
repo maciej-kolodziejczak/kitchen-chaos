@@ -9,8 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f6cca80a54f459e87f51e621ca59790, type: 3}
-  m_Name: Recipe Repository
+  m_Script: {fileID: 11500000, guid: 660afcf404a943599ce8cee4fe719127, type: 3}
+  m_Name: Salad
   m_EditorClassIdentifier: 
-  recipes:
-  - {fileID: 11400000, guid: 7a9fe2f1bf73efc46b81c0967476ad73, type: 2}
+  recipeName: Salad
+  ingredients:
+  - {fileID: 11400000, guid: 20538b1daf6944d37b2206541eaf041a, type: 2}
+  - {fileID: 11400000, guid: 99cce23d447314dec844f691192879d7, type: 2}
